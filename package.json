@@ -1,0 +1,19 @@
+{
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "Real-time chat application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankush-khera09/chit-chat.git"
+  },
+  "author": "Ankush Khera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ankush-khera09/chit-chat/issues"
+  },
+  "homepage": "https://github.com/ankush-khera09/chit-chat#readme"
+}
