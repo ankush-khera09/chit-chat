@@ -1,7 +1,7 @@
 import './App.css';
 import {Routes, Route, BrowserRouter} from 'react-router-dom'
-import HomePage from './Pages/HomePage';
-import ChatPage from './Pages/ChatPage';
+import HomePage from './pages/HomePage';
+import ChatPage from './pages/ChatPage';
 
 function App() {
   return (
