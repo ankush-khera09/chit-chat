@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack, useToast } from "@chakra-ui/react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -7,7 +9,61 @@ const Login = () => {
   const [show, setShow] = useState(false);         // show-hide password
   const handleShow = () => setShow(!show);
 
-  const submitHandler = () => {};
+  const [loading, setLoading] = useState(false);    // kind of boolean flag variable
+  const toast = useToast();    // pop-up in chakra ui
+
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();     // so that the page doesn't load on submit
+
+    setLoading(true);
+
+    if (!email || !password) {
+        toast({
+            title: "Please Fill all the Feilds",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+        });
+        setLoading(false);
+        return;
+    }
+
+    // send data to the database
+    try{
+        const config = {
+            headers:{
+                "Content-type": "application/json",
+            }
+        };
+
+        const {data} = axios.post("http://localhost:5000/api/user/login", {email, password}, config);
+        
+        toast({
+            title: "User logged in successfully :)",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+        });
+
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        setLoading(false);
+        navigate("/chats");    // After login, take user to the chats page
+    }catch(error){
+        toast({
+            title: "Internal Server Error, Try Again!",
+            description: error.response.data.message,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+        });
+        setLoading(false);
+    }
+  };
 
   return (
     <VStack spacing="10px">
@@ -38,7 +94,7 @@ const Login = () => {
         </InputGroup>
       </FormControl>
 
-      <Button colorScheme="blue" width="100%" style={{ marginTop: 15 }} onClick={submitHandler}>
+      <Button colorScheme="blue" width="100%" style={{ marginTop: 15 }} onClick={submitHandler} isLoading={loading}>
         Login
       </Button>
       
