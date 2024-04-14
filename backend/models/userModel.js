@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema(
     }
 , {timestamps: true});
 
+// login krte waqt check krenge is entered password is same as the saved one
 userSchema.methods.matchPassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password);
 }

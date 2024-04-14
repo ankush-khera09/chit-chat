@@ -1,0 +1,87 @@
+## starting with your backend - server.js file
+
+const express = require("express");
+const app = express();
+
+app.get('/', (req, res)=>{
+    console.log("Sample API");
+})
+
+app.listen(5000, console.log("Server started running on PORT 5000!"));
+
+----------------------------------------
+
+## Using 'dotenv'
+
+- npm i dotenv
+- create a new file '.env'
+- In server.js file:
+const dotenv = require("dotenv");
+dotenv.config();
+
+const PORT = process.env.PORT || 5000;
+
+----------------------------------------
+
+## Connect frontend to backend
+
+Ports of both are different. frontend: 3000, backend: 5000
+So, if you try to make an API request from frontend to backend, it will give you 'cors' error.
+// cross-origin resource sharing - when frontend and backend are on diff domains
+const cors = require("cors");
+app.use(cors());
+
+To avoid this error, we give 'proxy' to frontend
+In package.json file, add-
+"proxy": "http://127.0.0.1:5000" (127.0.0.1 is localhost, 5000 is backend port)
+
+----------------------------------------
+
+## Creating Routes using react-router-dom
+
+In App.js file:
+import {Routes, Route, BrowserRouter} from 'react-router-dom'
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route exact path="/" element={<HomePage/>} />
+          <Route exact path="/chats" element={<ChatPage/>} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+}
+
+---------------------------------
+
+## Using Chakra UI
+
+1. Install Chakra UI - npm i --get this thing from its website
+2. In index.js file:
+- import { ChakraProvider } from '@chakra-ui/react'
+- wrap it under <ChakraProvider>:
+    <ChakraProvider>
+        <App />
+    </ChakraProvider>
+
+--------------------------------
+
+## Using 'axios' to fetch an API
+
+For eg, in Chats page: import axios from "axios";
+const [chats, setChats] = useState([]);
+
+const fetchChats = async () => {
+    const response = await axios.get('http://localhost:5000/api/chats');
+    setChats(response.data);      // axios wraps response in 'data' property
+}
+
+useEffect(()=>{
+    fetchChats();
+}, []);
+
+-------------------------------
+
+## 'mongoose' is used to connect to MongoDB database and make queries to database
