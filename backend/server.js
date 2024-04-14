@@ -4,6 +4,7 @@ const {chats} = require("./data");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require('./routes/chatRoutes');
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware")
 
 const app = express();
@@ -23,6 +24,7 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/api/user', userRoutes);
+app.use('/api/chat', chatRoutes);
 
 // API Error Handlers (in 'middlewares' folder)
 app.use(notFound);         // if API url is wrong
