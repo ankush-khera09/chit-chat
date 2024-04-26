@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Box, Text, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import Login from '../components/authentication/Login'
 import Signup from '../components/authentication/Signup'
+import { useNavigate } from 'react-router-dom'
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    
+    // if the user is logged in => navigate him to chats page
+    if(user) navigate('/chats');
+  }, [navigate]);
   return (
     // this 'Container' will be responsive according to the screen size
     <Container maxW="xl" centerContent>
